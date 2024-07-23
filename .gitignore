@@ -42,3 +42,9 @@ testem.log
 Thumbs.db
 
 .nx/
+.env
+.env.dev*
+.env.prod*
+.env.test*
+.env.stag*
+

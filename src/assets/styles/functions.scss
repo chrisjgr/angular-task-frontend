@@ -1,0 +1,7 @@
+@function get-color($color-name, $shade) {
+  @return map-get($color-name, $shade);
+}
+
+@function get-contrast-color($color-name, $shade) {
+  @return map-get(map-get($color-name, contrast), $shade);
+}

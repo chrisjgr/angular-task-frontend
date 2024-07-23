@@ -1,3 +1,6 @@
+@import '../../../assets/styles/theme.scss';
+@import '../../../assets/styles/functions.scss';
+
 header {
   background-color: white;
   display: flex;
@@ -15,7 +18,7 @@ header {
   }
 
   .good-luck-txt {
-    color: #ff6600;
+    color: map-get($map: $orange-atom-palette, $key: A700);
     font-weight: bold;
   }
 }

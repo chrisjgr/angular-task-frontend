@@ -14,17 +14,12 @@ export class TokenService {
         return localStorage.getItem("token") as string;
     }
 
-    // TODO: Validate Token
-    validateToken(): boolean {
-        return false;
-    }
-
     removeToken(): void {
         localStorage.removeItem("token");
     }
 
-    // TODO: Finishing this
-    translateToken(): JwtPayloadInterface {
-        return { id: "" };
+    // TODO: Validate with the jwt secret
+    translateToken(token: string): JwtPayloadInterface {
+        return token ? { id: "" } : { id: "" };
     }
 }

@@ -1,5 +1,5 @@
 export interface ListInterface {
-    id?: string;
+    id: string;
     title: string;
     userId: string;
 }

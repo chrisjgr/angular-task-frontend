@@ -1,10 +1,16 @@
-import { HttpClient } from "@angular/common/http";
+/* eslint-disable class-methods-use-this */
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ListInterface } from "@core/models/list.interface";
 import { ListStateInterface } from "@core/models/listState.interface";
 import { TaskInterface } from "@core/models/tasks.interface";
 import { environment } from "@envs/environment";
-import { BehaviorSubject } from "rxjs";
+import {
+    BehaviorSubject,
+    catchError,
+    of,
+    throwError
+} from "rxjs";
 
 @Injectable({
     providedIn: "root"
@@ -20,19 +26,37 @@ export class ListsService {
     ) { }
 
     getAlListsByUserId(userId: string) {
-        return this.http.get<ListInterface[]>(`${this.url}/lists/user/${userId}`);
+        return this.http.get<ListInterface[]>(`${this.url}/lists/user/${userId}`)
+            .pipe(
+                catchError((error) => this.handleError(error))
+            );
     }
 
     createList(userId: string, title: string) {
-        return this.http.post<ListInterface>(`${this.url}/lists/`, { title, userId });
+        return this.http.post<ListInterface>(`${this.url}/lists/`, { title, userId })
+            .pipe(
+                catchError((error) => this.handleError(error))
+            );
     }
 
     updateList(listId: string, title: string) {
-        return this.http.put<ListInterface>(`${this.url}/lists/${listId}`, { title });
+        return this.http.put<ListInterface>(`${this.url}/lists/${listId}`, { title })
+            .pipe(
+                catchError((error) => this.handleError(error))
+            );
     }
 
     deleteList(listId: string) {
-        return this.http.delete<boolean>(`${this.url}/lists/${listId}`);
+        return this.http.delete<boolean>(`${this.url}/lists/${listId}`)
+            .pipe(
+                catchError((error) => this.handleError(error))
+            );
+    }
+    handleError(error: HttpErrorResponse) {
+        if (error.status !== 500) {
+            return of();
+        }
+        return throwError(() => new Error(`Sorry! something went wrong: ${error}`));
     }
 
     // * State Manipulation

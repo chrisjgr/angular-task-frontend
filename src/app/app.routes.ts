@@ -1,10 +1,12 @@
 import { Routes } from "@angular/router";
+import { authGuard } from "@core/guards/auth.guard";
+import { privateGuardGuard } from "@core/guards/private-guard.guard";
 
 export const routes: Routes = [
     {
         path: "",
         redirectTo: "/login",
-        pathMatch: "full"
+        pathMatch: "full",
     },
     {
         path: "example-page",
@@ -12,10 +14,12 @@ export const routes: Routes = [
 
     }, {
         path: "login",
+        canActivate: [privateGuardGuard],
         loadComponent: () => import("./modules/auth/pages/login/login.component").then((m) => m.LoginComponent)
 
     }, {
-        path: "tasks",
+        path: "dashboard",
+        canActivate: [authGuard],
         loadComponent: () => import("./core/layout/dashboard-layout/dashboard-layout/dashboard-layout.component")
             .then((m) => m.DashboardLayoutComponent),
         children: [

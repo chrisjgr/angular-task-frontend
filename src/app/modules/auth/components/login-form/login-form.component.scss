@@ -1,0 +1,28 @@
+@import "../../../../../assets/styles/theme.scss";
+@import "../../../../../assets/styles/functions.scss";
+
+.card-container {
+  @apply h-auto p-6;
+
+  width: 32rem;
+}
+
+.card-container__header {
+  @apply mb-8;
+}
+
+.card-container__title-gorup {
+  @apply flex flex-col-reverse items-center;
+}
+
+.card-container__logo {
+  @apply mb-10;
+}
+
+.card-container__content__email {
+  @apply w-full mb-5;
+}
+
+.card-container__content__login-button {
+  @apply p-6 w-full font-bold;
+}

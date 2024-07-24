@@ -1,10 +1,16 @@
-import { HttpClient } from "@angular/common/http";
+/* eslint-disable class-methods-use-this */
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { TaskInterface } from "@core/models/tasks.interface";
 import { CreateTaskParam } from "@core/types/createTaskParams.type";
 import { UpdateTaskParam } from "@core/types/updateTaskParams.type";
 import { environment } from "@envs/environment";
-import { BehaviorSubject } from "rxjs";
+import {
+    BehaviorSubject,
+    catchError,
+    of,
+    throwError
+} from "rxjs";
 
 @Injectable({
     providedIn: "root"
@@ -20,25 +26,40 @@ export class TasksService {
     ) { }
 
     getTasksByUserId(userId: string) {
-        return this.http.get<TaskInterface[]>(`${this.url}/tasks/user/${userId}`);
+        return this.http.get<TaskInterface[]>(`${this.url}/tasks/user/${userId}`)
+            .pipe(
+                catchError((error) => this.handleError(error))
+            );
     }
 
     getTasksByListId(listId: string) {
-        return this.http.get<TaskInterface[]>(`${this.url}/tasks/user/${listId}`);
+        return this.http.get<TaskInterface[]>(`${this.url}/tasks/user/${listId}`)
+            .pipe(
+                catchError((error) => this.handleError(error))
+            );
     }
 
     createTask(createTask: CreateTaskParam) {
         const params = createTask.listId !== null || undefined ? { listId: createTask.listId } : { listId: null };
-        return this.http.post<TaskInterface>(`${this.url}/tasks`, { ...createTask, ...params });
+        return this.http.post<TaskInterface>(`${this.url}/tasks`, { ...createTask, ...params })
+            .pipe(
+                catchError((error) => this.handleError(error))
+            );
     }
 
     updateTask(taskId: string, updateTask: UpdateTaskParam) {
         const params = updateTask.listId !== null || undefined ? { listId: updateTask.listId } : { listId: null };
-        return this.http.put<TaskInterface>(`${this.url}/tasks/${taskId}`, { ...updateTask, ...params });
+        return this.http.put<TaskInterface>(`${this.url}/tasks/${taskId}`, { ...updateTask, ...params })
+            .pipe(
+                catchError((error) => this.handleError(error))
+            );
     }
 
     deleteTask(taskId: string) {
-        return this.http.delete<boolean>(`${this.url}/tasks/${taskId}`);
+        return this.http.delete<boolean>(`${this.url}/tasks/${taskId}`)
+            .pipe(
+                catchError((error) => this.handleError(error))
+            );
     }
 
     // * State Manipulation
@@ -59,5 +80,12 @@ export class TasksService {
 
     replaceAllTasksState(tasks: TaskInterface[]) {
         this.tasksState.next(tasks);
+    }
+
+    handleError(error: HttpErrorResponse) {
+        if (error.status !== 500) {
+            return of();
+        }
+        return throwError(() => new Error(`Sorry! something went wrong: ${error}`));
     }
 }

@@ -1,0 +1,40 @@
+<mat-card class="card-container" appearance="raised">
+
+  <!-- * Header -->
+  <mat-card-header class="card-container__header">
+    <mat-card-title-group class="card-container__title-gorup">
+      <img mat-card-image ngSrc="assets/images/logo-atom-chat.png" priority="high" class="card-container__logo"
+        alt="Logo de ATOM Chat TODO" width="192.5" height="55" />
+      <mat-card-title>Welcome to ATOM Todo App</mat-card-title>
+    </mat-card-title-group>
+  </mat-card-header>
+
+  <!-- * From -->
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="login($event)">
+      <mat-form-field class="card-container__content__email" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="Ex. pat@example.com" />
+
+        <!-- * Validation errors from -->
+        @if (getError('email', 'email')) {
+          <mat-error>Please enter a valid email address</mat-error>
+        }
+        @if (getError('email', 'required') && form.get('email')?.touched) {
+          <mat-error>Email is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+
+      <!-- * Button -->
+      <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+          class="card-container__content__login-button"
+          [disabled]="form.invalid"
+        >
+          Login
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

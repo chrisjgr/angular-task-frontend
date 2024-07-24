@@ -1,0 +1,7 @@
+@import "../../../../../assets/styles/theme.scss";
+@import "../../../../../assets/styles/functions.scss";
+
+.page-login-container {
+  @apply h-screen w-screen p-0 m-0 flex justify-center items-center flex-col;
+  background-color: #fafafa;
+}

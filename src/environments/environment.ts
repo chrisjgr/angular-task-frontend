@@ -1,4 +1,4 @@
 export const environment = {
-    apiUrl: "http://127.0.0.1:5001/atom-ai-chat-technical-test/us-central1/app/api",
+    apiUrl: "https://us-central1-atom-ai-chat-technical-test.cloudfunctions.net/app/api",
     production: false
 };
